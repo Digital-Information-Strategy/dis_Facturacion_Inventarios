@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_datos_medidor">
+			<field name="res_model">datos.medidor</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<!-- Coloca un menú en la sección Configuraciones de la Facturación Inventarios en Contabilidad-->
+		<menuitem name="Medidores" id="menu_medidores" parent="menu_configuracion" action="action_datos_medidor" sequence="1"/>
+		
+		<!-- Filtros -->
+		<record id="view_datos_medidor_filter" model="ir.ui.view">
+		    	<field name="name">datos.medidor.select</field>
+		    	<field name="model">datos.medidor</field>
+		    	<field name="arch" type="xml">
+				<search string="Búsquedas medidores">
+					<field name="cliente_id" string="Busqueda por cliente"/>
+					<!-- Aquí se toma en cuenta solo una de las opciones del estado-->
+					<separator string="Estado medidores" />
+			   		<filter help="Medidores activos" icon="terp-personal+" domain="[('estado','=','True')]"/>
+					<filter help="Medidores desactivos" icon="terp-personal+" domain="[('estado','=',False)]"/>
+			   		<separator string="Tipo suscriptor"/>
+					<filter help="Tipo residencial" icon="terp-personal+" domain="[('tipo_suscriptor','=','residencial')]"/>
+					<filter help="Tipo comercios" icon="terp-personal+" domain="[('tipo_suscriptor','=','comercios')]"/>
+				   	<group expand="0" string="Group By...">
+						<!-- El  Group By... (Agrupar por...) toma en cuenta todas las opciones de estado-->
+						<filter string="Estado" icon="terp-personal" domain="[]" context="{'group_by' : 'estado'}" />
+					</group>
+		       		</search>
+		    	</field>
+		</record>
+
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_datos_medidor_tree">
+			<field name="name">datos_medidor_tree</field>
+			<field name="model">datos.medidor</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Medidores">
+					<field name="orden_lectura"/>
+					<field name="numero_medidor" />
+					<field name="cliente_id"/>
+					<field name="estado"/>
+					<field name="descripcion"/>
+				</tree>
+			</field>
+		</record>
+		<!-- Vista tipo formulario -->
+		<record model="ir.ui.view" id="view_datos_medidor_form">
+			<field name="name">datos_medidor_form</field>
+			<field name="model">datos.medidor</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Medidores" version="7.0">
+					<sheet string="Genera pedidos de ventas">
+					<group col="2">						
+						<group col="6">
+							<field name="numero_medidor" on_change="onchange_numero_medidor(numero_medidor)"/>
+							<newline/>
+							<field name="orden_lectura" on_change="onchange_orden_lectura(orden_lectura)"/>
+						</group>
+						<group col="6">
+							<label string=""/>
+						</group>
+						<separator string="Información del cliente" />
+						<separator string="Estados del medidor" />
+						<group col="2">
+							<newline/>
+							<field name="cliente_id"/>
+							<newline/>
+							<field name="unidades_habitacionales"/>
+							<newline/>
+							<field name="tipo_suscriptor"/>
+							<newline/>
+							<field name="descripcion"/>
+						</group>
+						<group col="2">
+							<newline/>
+							<field name="estado"/>
+							<newline/>
+							<field name="estado_moroso" readonly="False"/>
+							<newline/>
+							<field name="activar_linea_cr" readonly="False"/>
+							<field name="activar_reconexion" readonly="False"/>
+						</group>
+						<newline/>
+						<separator string="Notas Adicionales" />
+						<newline/>
+						<group col="2">
+							<field name="notas" nolabel="1"/>
+						</group>
+					</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_genera_lecturas">
+			<field name="res_model">genera.lecturas</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<!-- Coloca un menú en la sección de Contabilidad-->
+		<menuitem name="Facturación Inventarios" id="menu_facturacion_inventarios" parent="account.menu_finance" action="action_genera_lecturas" sequence="3"/>
+		<menuitem name="Generar Lecturas" id="menu_genera_lecturas" parent="menu_facturacion_inventarios" action="action_genera_lecturas" sequence="1"/>
+		
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_genera_lecturas_tree">
+			<field name="name">genera_lecturas_tree</field>
+			<field name="model">genera.lecturas</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Generar Lecturas">
+					<field name="name"/>
+					<field name="fecha_lectura"/>
+					<field name="fecha_vencimiento"/>
+					<field name="estado_lectura"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Vista tipo formulario -->
+		<record model="ir.ui.view" id="view_genera_lecturas_form">
+			<field name="name">genera_lecturas_form</field>
+			<field name="model">genera.lecturas</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Generar Lecturas" version="7.0">
+					<header>
+						<button name="generar_lecturas" string="Generar Lecturas" type="object" icon="terp-stock_format-scientific" class="oe_highlight" attrs="{'invisible': [('estado_lectura', '=', 'generado')]}" /> 
+						<field name="estado_lectura" widget="statusbar" statusbar_visible="draft,generado" statusbar_colors='{"draft":"blue","generado":"blue"}' nolabel="1"/>
+					</header>
+					<sheet string="Generar Lecturas">
+						<group col="5">
+							<field name="periodo_id" on_change="onchange_periodo(periodo_id)" attrs="{'readonly':[('estado_lectura','=','generado')]}"/>
+							<field name="name" attrs="{'readonly':[('estado_lectura','=','generado')]}" invisible="True"/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+						</group>
+						<newline/>
+						<group colspan="6" col="2">-
+							<field name="fecha_lectura" attrs="{'readonly':[('estado_lectura','=','generado')]}"/>
+					                <field name="fecha_vencimiento" attrs="{'readonly':[('estado_lectura','=','generado')]}"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_valida_presupuestos">
+			<field name="res_model">valida.presupuestos</field>
+			<field name="domain">[]</field>
+			<field name="view_mode">form,tree</field>
+		</record>
+
+		<!-- Coloca un menú en la sección Facturación Inventarios de Contabilidad-->
+		<menuitem  name="Validar presupuestos" id="menu_validar" parent="base.menu_sales" action="action_valida_presupuestos" sequence="4"/>
+
+		<!-- Vista tipo formulario -->
+		<record model="ir.ui.view" id="view_valida_presupuestos_form">
+			<field name="name">valida_presupuestos_form</field>
+			<field name="model">valida.presupuestos</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Validar presupuestos" version="7.0">
+					<header>
+						<button name="cargar_presupuestos" string="Ver presupuestos" type="object"  class="oe_highlight" attrs="{'invisible':[('estado_validaciones','!=','draft')]}"/>
+						<button name="confirmar_presupuestos" string="Confirmar ventas" type="object"  class="oe_highlight" attrs="{'invisible':[('estado_validaciones','!=','presupuestos')]}"/> 
+						<button name="crear_facturas" string="Facturar" type="object"  class="oe_highlight" attrs="{'invisible':[('estado_validaciones','!=','pedido_venta')]}"/>  
+
+						<field name="estado_validaciones" widget="statusbar" nolabel="1" statusbar_visible="draft,presupuestos,pedido_venta,done" statusbar_colors='{"draft":"blue","presupuestos":"blue","pedido_venta":"blue","done":"blue"}'/>
+					</header>
+					<sheet string="Validar Presupuestos">
+					<h3><label string="Atención: ¡Todas las facturas han sido creadas satisfactoriamente!" attrs="{'invisible': [('estado_validaciones','!=','done')]}"/></h3>
+					<group col="2">						
+						<group col="6">
+							
+							<newline/>
+							<field name="name" invisible="True"/>
+							<field name="cant"/>
+							<newline/>
+							<field name="order_line" colspan="4" nolabel="1">
+								<tree string="" editable="bottom" colors="red:confirm == False;" create="0" edit="0">
+									<field name="name"/>
+								    	<field name="orders_id" invisible="True"/>
+								        <field name="date_order" /> 
+								    	<field name="partner_id"/>
+								    	<field name="user_id"/>
+								    	<field name="amount_total" />
+									<field name="confirm" invisible="0"/>								    	<field name="state" invisible="1"/> 
+								    	<field name="id_sale_order" invisible="True"/> 
+								</tree>
+							</field>
+						</group>
+					</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_valida_presupuestos_tree">
+			<field name="name">valida_presupuestos_tree</field>
+			<field name="model">valida.presupuestos</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Validaciones">
+					<field name="name"/>
+					<field name="estado_validaciones"/>
+				</tree>
+			</field>
+		</record>
+	</data>
+</openerp>

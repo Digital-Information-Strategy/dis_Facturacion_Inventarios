@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_clientes_morosos">
+			<field name="res_model">clientes.morosos</field>
+			<field name="view_mode">form</field>
+		</record>
+
+		<!-- Coloca un menú en la sección de Facturación Inventario de Contabilidad-->
+		<menuitem name="Clientes morosos" id="menu_clientes_morosos" parent="menu_facturacion_inventarios" action="action_clientes_morosos" sequence="4"/>
+
+		<!-- Vista tipo formulario -->
+		<record model="ir.ui.view" id="view_clientes_morosos_form">
+			<field name="name">clientes_morosos_form</field>
+			<field name="model">clientes.morosos</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Clientes morosos" version="7.0">
+					<sheet string="Clientes morosos">
+						<group col="1">
+							<separator string="Filtrar por fecha actual"/>
+						</group>
+						<group col="1">
+							<label string=""/>
+						</group>
+						<group col="2">
+							<field name="fecha"/>
+							<newline/>
+						</group>
+						<group col="1">
+							<label string="Importante: El sistema buscará los medidores que estén al cobro antes de la fecha actual y mayor a la fecha de vencimiento."/>
+						</group>
+					</sheet>		
+				</form>
+			</field>
+		</record>
+	
+	</data>
+</openerp>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_genera_facturas">
+			<field name="res_model">genera.facturas</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<!-- Coloca un menú en la sección Facturación Inventarios de Contabilidad-->
+		<menuitem name="Generar Facturas" id="menu_genera_facturas" parent="menu_facturacion_inventarios" action="action_genera_facturas" sequence="3"/>
+
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_genera_facturas_tree">
+			<field name="name">genera_facturas_tree</field>
+			<field name="model">genera.facturas</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Generar Facturas">
+					<field name="periodo_id"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_genera_facturas_form">
+			<field name="name">genera_facturas_form</field>
+			<field name="model">genera.facturas</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Generar Facturas" version="7.0">
+					<header>
+						<button name="generar_presupuestos" string="Generar Facturas" type="object" icon="terp-stock_format-scientific" class="oe_highlight" attrs="{'invisible': [('estado', '=', 'generado')]}"/>
+						<field name="estado" widget="statusbar" statusbar_visible="draft,generado" statusbar_colors='{"draft":"blue","generado":"blue"}' nolabel="1"/>
+					</header>
+					<sheet string="Genera facturas">
+						<group col="5">
+							<field name="name" invisible="True"/>
+							<field name="periodo_id" on_change="onchange_periodo(periodo_id)" domain="[('estado_lectura','=','generado')]" attrs="{'readonly':[('estado','=','generado')]}"/><label string=" "/><label string=" "/><label string=" "/><label string=" "/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

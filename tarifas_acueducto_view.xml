@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record model="ir.actions.act_window" id="action_tarifas_acueducto">
+			<field name="res_model">tarifas.acueducto</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<!-- Coloca un menú en la sección Configuraciones de la Facturación Inventarios en Contabilidad-->
+		<menuitem name="Tarifas de Servicio Acueducto" id="menu_tarifas_acueducto" parent="menu_configuracion" action="action_tarifas_acueducto" sequence="3"/>
+		<!-- Vista tipo lista -->
+		<record model="ir.ui.view" id="view_tarifas_acueducto_tree">
+			<field name="name">tarifas_acueducto_tree</field>
+			<field name="model">tarifas.acueducto</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<tree string="Tarifas Servicio de Acueducto">
+					<field name="tipo_tarifa" />
+				</tree>
+			</field>
+		</record>
+		<!-- Vista tipo formulario -->
+		<record model="ir.ui.view" id="view_tarifas_acueducto_form">
+			<field name="name">tarifas_acueducto_form</field>
+			<field name="model">tarifas.acueducto</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5"/>
+			<field name="arch" type="xml">
+				<form string="Tarifas Servicio de Acueducto" version="7.0">
+					
+					<sheet string="Tarifas Servicio de Acueducto">
+						<group>
+							<field name="tipo_tarifa"/> <!-- readonly="True"/>-->
+							<newline/>
+							<field name="rango_actual_abonados"/>
+							<field name="tipo_suscriptor"/> <!-- readonly="True"/>-->
+							<newline/>
+							<field name="producto_consumo"/>
+							<field name="tarifa_base"/>
+						</group>
+						<group colspan="2" col="14" >
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string=" "/>
+							<label string="Consumo en metros cúbicos."/>
+						</group>
+						<newline/>
+						<group colspan="2" col="12" >
+							<field name="consumo_metros_cubicos" nolabel="1">
+								<tree string="Tarifas" editable="bottom">
+									<field name="rango_abonados"/>
+									<field name="tarifa_base" /><!--readonly="True"/>-->
+									<field name="1_al_10" /><!--readonly="True"/>-->
+									<field name="11_al_30" /><!--readonly="True"/>-->
+									<field name="31_al_60" /><!--readonly="True"/>-->
+									<field name="mas_60" /><!--readonly="True"/>-->
+									<field name="tarifa_fija"/><!-- readonly="True"/>-->
+								</tree>
+							</field>
+						</group>
+					</sheet>		
+				</form>
+			</field>
+		</record>
+	</data>
+</openerp>

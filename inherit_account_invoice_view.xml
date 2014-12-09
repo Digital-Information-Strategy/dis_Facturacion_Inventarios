@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+	<!-- Filtros -->
+	<record id="view_invoice_filter" model="ir.ui.view">
+	    	<field name="name">account.invoice.filter</field>
+	    	<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.view_account_invoice_filter" />
+	    	<field name="arch" type="xml">
+			<filter name="unpaid" position="after">
+				<filter name="e_mail" string="Factura por correo electrónico" domain="[('e_mail','=',True)]"/>
+				<filter name="impreso" string="Factura impresa" domain="[('impreso','=',True)]"/>
+			</filter>
+			
+	    	</field>
+	</record>
+
+	<!-- Herencia a la vista del pedido de ventas-->
+        <record model="ir.ui.view" id="view_account_invoice_form">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+		<field name="partner_id" position="after">
+			<newline/>
+			<field name="numero_abonado" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+			<newline/>
+			<field name="numero_medidor" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+			<newline/>
+			<field name="unidades_habitacionales" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+			<newline/>
+			<field name="periodo_id" invisible="True"/>
+			<field name="registro_id" invisible="True"/>
+			<field name="fecha_vencimiento" invisible="True"/>
+		</field>
+		<field name="date_due" position="after">
+			<newline/>
+			<label string="Preferencias de factura:"/>
+			<newline/>
+			<field name="e_mail" readonly="True"/>
+			<field name="impreso" readonly="True"/>
+		</field>
+		<xpath expr="//page[@string='Payments']" position="after">
+                        <page string="Registros Historicos">
+				<group>
+					<field name="fecha_lect_ant"/>
+					<field name="fecha_lect_act"/>
+					<field name="dias_fact" />
+					<field name="lectura_anterior"/>
+					<field name="lectura_actual"/>
+					<field name="consumo_mes"/>
+				</group>
+                        </page>
+                </xpath> 
+            </field>
+        </record>
+    </data>
+</openerp>
